@@ -14,11 +14,10 @@ end
 module ProjectsHelperMethodsBanner
   def project_settings_tabs_with_banner
     tabs = project_settings_tabs_without_banner
-    action = {:name => 'banner', 
+    tabs.push({:name => 'banner',
       :controller => 'banner',
-      :action => :show, 
-      :partial => 'banner/show', :label => :banner}
-    tabs << action if User.current.allowed_to?(action, @project)
-    tabs
+      :action => :manage_banner,
+      :partial => 'banner/show', :label => :banner})
+    tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
 end
